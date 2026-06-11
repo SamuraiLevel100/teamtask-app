@@ -22,7 +22,6 @@ jobs:
           POSTGRES_DB: teamtask
         ports:
           - 5432:5432
-
         options: >-
           --health-cmd="pg_isready -U postgres"
           --health-interval=10s
@@ -34,16 +33,15 @@ jobs:
         working-directory: backend
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest httpx
 
@@ -68,8 +66,7 @@ jobs:
         working-directory: backend
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Build Docker image
         run: docker build -t teamtask-backend .
